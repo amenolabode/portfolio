@@ -85,6 +85,12 @@ img {
   /* text-align: center; */
 }
 
+.card-title{
+  font-size: var(--normal-font-size);
+  color: white;
+  margin-top: var(--mb-2);
+  
+}
 
 .section {
   padding-top: 3rem;
