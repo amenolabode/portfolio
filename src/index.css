@@ -1,0 +1,23 @@
+:root {
+  --bg-color: #f4f0e8;
+  --ink-color: #1a1a1a;
+  --ink-faded: #4a4a4a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Courier New", Courier, monospace;
+  background-color: var(--bg-color);
+  color: var(--ink-color);
+  line-height: 1.6;
+  padding: 2rem 1rem;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
