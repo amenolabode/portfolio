@@ -1,7 +1,10 @@
 :root {
-  --bg-color: #f4f0e8;
-  --ink-color: #1a1a1a;
-  --ink-faded: #4a4a4a;
+  --bg-color: #050505;
+  --text-main: #f5f5f5;
+  --text-muted: #888888;
+  --border-color: #222222;
+  --border-hover: #f5f5f5;
+  --accent-bg: #111111;
 }
 
 * {
@@ -11,11 +14,13 @@
 }
 
 body {
-  font-family: "Courier New", Courier, monospace;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-color: var(--bg-color);
-  color: var(--ink-color);
+  color: var(--text-main);
   line-height: 1.6;
-  padding: 2rem 1rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body.modal-open {

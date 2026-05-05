@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amen O. Olabode | PM & Dev</title>
+    <style>
+        :root {
+            /* Switched to a sleek Dark Theme */
+            --bg-color: #050505;
+            --text-main: #f5f5f5;
+            --text-muted: #888888;
+            --border-color: #222222;
+            --border-hover: #f5f5f5;
+            --accent-bg: #111111;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* --- HERO SECTION (Charlie Pite Style) --- */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            background-color: var(--bg-color);
+            padding: 1.5rem;
+            /* Creates the outer dark frame */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-canvas {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 2rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0a0a0a;
+            /* Slightly lighter than the main bg for depth */
+        }
+
+        .hero-bg-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+            /* Adding a subtle zoom effect for premium feel */
+            transform: scale(1.05);
+        }
+
+        .hero-bg-slide.active {
+            opacity: 0.7;
+            /* Increased opacity since the theme is dark now */
+            transform: scale(1);
+            transition: opacity 2s ease-in-out, transform 8s ease-out;
+        }
+
+        #typing-name {
+            position: relative;
+            z-index: 1;
+            font-size: clamp(3rem, 12vw, 12rem);
+            font-weight: 500;
+            letter-spacing: -0.04em;
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1;
+            white-space: nowrap;
+            padding-right: 1vw;
+            border-right: 0.05em solid var(--text-main);
+            animation: blink-caret 0.8s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            50% {
+                border-color: transparent;
+            }
+        }
+
+        .scroll-prompt {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            animation: bounce 2s infinite;
+            transition: color 0.3s;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .scroll-prompt:hover {
+            color: var(--text-main);
+        }
+
+        .scroll-prompt svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0) translateX(-50%);
+            }
+
+            40% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+
+            60% {
+                transform: translateY(-5px) translateX(-50%);
+            }
+        }
+
+        /* --- MAIN CONTENT --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .intro-header {
+            text-align: left;
+            margin-bottom: 5rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-top: 2rem;
+        }
+
+        .notice {
+            display: inline-block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .notice strong {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .intro-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Email Link & Chat Bubble */
+        .email-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .email-link {
+            font-weight: 500;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1rem;
+            border-bottom: 1px solid var(--text-main);
+            padding-bottom: 2px;
+            transition: color 0.3s, border-color 0.3s;
+        }
+
+        .email-link:hover {
+            color: var(--text-muted);
+            border-color: var(--text-muted);
+        }
+
+        .chat-bubble {
+            position: absolute;
+            bottom: 160%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: var(--text-main);
+            color: var(--bg-color);
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .chat-bubble::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: var(--text-main) transparent transparent transparent;
+        }
+
+        .email-wrapper:hover .chat-bubble {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .section-header {
+            margin-top: 5rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 700px;
+        }
+
+        /* Clean Lines List Styles (Module 1) */
+        .pm-list {
+            list-style-type: none;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pm-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: padding-left 0.3s ease, background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .pm-list-item:hover {
+            padding-left: 1rem;
+            background-color: var(--accent-bg);
+        }
+
+        .pm-item-info {
+            flex: 1;
+            padding-right: 2rem;
+        }
+
+        .pm-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .pm-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .pm-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .pm-item-action {
+            flex-shrink: 0;
+        }
+
+        /* Grid Styles (Module 2) */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .card {
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            color: var(--text-main);
+        }
+
+        .card p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            flex-grow: 1;
+            font-size: 0.95rem;
+        }
+
+        /* Action Indicators */
+        .action-indicator {
+            font-size: 0.85rem;
+            color: var(--text-main);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .pm-list-item:hover .action-indicator,
+        .card:hover .action-indicator {
+            border-color: var(--text-main);
+        }
+
+        /* --- NAIJA POP EFFECT (Hover Version) --- */
+        .naija-pop {
+            position: fixed;
+            pointer-events: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--bg-color);
+            background: var(--text-main);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            animation: popAndStay 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes popAndStay {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -10px) scale(0.8);
+            }
+
+            15% {
+                opacity: 1;
+                transform: translate(-50%, -40px) scale(1.1);
+            }
+
+            25% {
+                transform: translate(-50%, -30px) scale(1);
+            }
+
+            80% {
+                opacity: 1;
+                transform: translate(-50%, -30px) scale(1);
+            }
+
+            /* Stay static */
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50px) scale(0.9);
+            }
+        }
+
+        /* --- SCROLL CHAT BUBBLES --- */
+        .scroll-chat-bubble {
+            position: fixed;
+            bottom: -50px;
+            right: 30px;
+            background: var(--text-main);
+            color: var(--bg-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 20px 20px 0 20px;
+            /* Tail pointing down-right */
+            font-size: 0.95rem;
+            font-weight: 600;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+        }
+
+        .scroll-chat-bubble.show {
+            bottom: 30px;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* --- FOOTER --- */
+        .site-footer {
+            margin-top: 6rem;
+            padding-top: 2.5rem;
+            padding-bottom: 2rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-muted);
+        }
+
+        /* --- MODAL SYSTEM --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(5, 5, 5, 0.95);
+            z-index: 1000;
+            padding: 1rem;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: var(--bg-color);
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            flex-shrink: 0;
+        }
+
+        .modal-body {
+            padding: 3rem 4rem;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        /* Static Close Button */
+        .close-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 300;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: var(--text-main);
+            color: var(--bg-color);
+            transform: scale(1.05);
+        }
+
+        .modal-title-wrapper {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-content h2 {
+            font-size: 2rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        /* Modal Slang Tag */
+        .modal-naija-slang {
+            display: inline-block;
+            margin-left: 1rem;
+            background: var(--text-main);
+            color: var(--bg-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateY(10px) rotate(-5deg);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        .modal-naija-slang.show {
+            opacity: 1;
+            transform: translateY(-2px) rotate(4deg);
+        }
+
+        .modal-content .modal-badge {
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 0;
+        }
+
+        .tech-tag {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background-color: var(--accent-bg);
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-content p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+        }
+
+        .story-text strong {
+            color: var(--text-main);
+            font-weight: 600;
+            display: block;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .modal-content .view-project-btn {
+            display: inline-block;
+            background-color: var(--text-main);
+            color: var(--bg-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 1rem 2rem;
+            transition: background-color 0.3s;
+        }
+
+        .modal-content .view-project-btn:hover {
+            background-color: #cccccc;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 1rem;
+            }
+
+            .hero-canvas {
+                border-radius: 1rem;
+            }
+
+            #typing-name {
+                font-size: clamp(2.5rem, 15vw, 6rem);
+            }
+
+            .pm-list-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+                padding: 2rem 1rem !important;
+            }
+
+            .pm-item-info {
+                padding-right: 0;
+            }
+
+            .site-footer {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .footer-links a {
+                margin: 0 0.75rem;
+            }
+
+            .modal-title-wrapper {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .modal-naija-slang {
+                margin-left: 0;
+            }
+
+            .modal-body {
+                padding: 2rem 1.5rem;
+            }
+
+            .modal-overlay {
+                padding: 1rem;
+            }
+
+            .scroll-chat-bubble {
+                right: 1rem;
+                left: 1rem;
+                text-align: center;
+                border-radius: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HERO SECTION (Charlie Pite Style) -->
+    <div class="hero">
+        <div class="hero-canvas">
+            <!-- Dynamic Background Slider -->
+            <div class="hero-bg-slider">
+                <!-- Utilizing the generated images for a dynamic narrative background -->
+                <div class="hero-bg-slide active"
+                    style="background-image: url('Prompt_1__The_Workspace_(Abstract)_202605051142.jpeg');"></div>
+                <div class="hero-bg-slide"
+                    style="background-image: url('A_sleek,_black-and-white_top-down_photography_202605051147.jpeg');">
+                </div>
+                <div class="hero-bg-slide"
+                    style="background-image: url('A_sleek,_black-and-white_top-down_photography_202605051150 (1).jpeg');">
+                </div>
+                <div class="hero-bg-slide"
+                    style="background-image: url('sleek,_black-and-white_top-down_photography_shot_202605051151.jpeg');">
+                </div>
+                <div class="hero-bg-slide"
+                    style="background-image: url('A_sleek,_black-and-white_top-down_photography_202605051148 (1).jpeg');">
+                </div>
+            </div>
+
+            <h1 id="typing-name"></h1>
+
+            <div class="scroll-prompt" onmouseenter="hoverNaijaSlang(event)">
+                <span>Scroll</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 5v14M19 12l-7 7-7-7" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+        <header class="intro-header">
+            <div class="notice">
+                <strong>Status:</strong> Product Manager first, Developer second.<br>
+                <strong>Mission:</strong> Shipping robust financial, HR, and consumer solutions.
+            </div>
+            <p>
+                Welcome to the life of a PM who writes code, plays drums, and cooks his own food. I believe the best
+                products are built at the intersection of strategic vision and technical execution. When I'm not
+                architecting fintech platforms or managing complex deployments, you'll probably find me holding down a
+                groove behind a drum kit or trying out a new recipe. Just keeping things easy! 🥁👨‍🍳
+            </p>
+            <div class="email-wrapper">
+                <div class="chat-bubble">Holla at me nau! 😔</div>
+                <a href="mailto:amen.olabode@gmail.com" class="email-link">amen.olabode@gmail.com</a>
+            </div>
+        </header>
+
+        <!-- SECTION 1: PRODUCT MANAGEMENT -->
+        <div class="section-header">
+            <h2 class="section-title">Module 01: Product Leadership</h2>
+            <p class="section-desc">
+                Strategy, architecture, and cross-functional execution. These are the large-scale systems, integrations,
+                and platforms where I owned the product vision and led the deployment from ideation to launch.
+            </p>
+        </div>
+
+        <ul class="pm-list">
+            <!-- Full row is clickable -->
+            <li class="pm-list-item" data-title="Pay With Transfer on POS" data-type="FINTECH"
+                data-desc="<strong>The Problem:</strong>Picture this: A customer is at checkout, but the POS terminal returns an 'Issuer Inoperative' error due to a card network downtime. The customer asks, 'Can I just transfer?' The merchant hesitates, knowing manual bank transfers to personal accounts are hard to verify and highly susceptible to fake alerts. Because our POS devices lacked a native, verifiable 'Pay With Transfer' option, we were experiencing massive friction and transaction drop-offs.<br><strong>Data & Research:</strong>We weren't just guessing—the data was screaming at us. Industry reports, notably Paystack's annual commerce insights, heavily highlighted that bank transfers were rapidly eating into the market share of traditional card payments, becoming the most preferred digital payment channel in Nigeria. By limiting our terminals to cards only, we were leaving billions of Naira in potential transaction volume on the table.<br><strong>What We Did:</strong>The mission was clear: bring secure, instant bank transfers to the POS. I led the strategic orchestration between our internal engineering teams and major PTSPs (Payment Terminal Service Providers) including UP, ITEX, Global Accelerex, and Interswitch. We architected a flow where the terminal generates a dynamic, transaction-specific virtual account number. The customer transfers the funds, the webhook fires upon confirmation, and the POS automatically prints a receipt—zero manual verification required.<br><strong>The Result:</strong>The impact was seismic. By giving merchants and customers the payment channel they actually wanted, we saw our POS revenue skyrocket from ₦5 Billion to ₦12 Billion. We drastically improved transaction success rates during card downtimes and fundamentally shifted our inbound payment metrics."
+                onclick="openModal(this)">
+                <div class="pm-item-info">
+                    <span class="pm-tag">Fintech</span>
+                    <h3 class="pm-title">Pay With Transfer on POS</h3>
+                    <p class="pm-desc">Architected alternative payment flows allowing seamless bank transfers directly
+                        coordinated with POS terminals.</p>
+                </div>
+                <div class="pm-item-action">
+                    <span class="action-indicator">Read Story &rarr;</span>
+                </div>
+            </li>
+
+            <li class="pm-list-item" data-title="POS Terminal Management Systems" data-type="HARDWARE / SAAS"
+                data-desc="<strong>The Problem:</strong>Managing thousands of physical devices spread across a country is chaotic. Our internal POS Operations Team was flying blind. They couldn't accurately keep track of physical inventory, monitor hardware faults, or attribute revenue generation across all our different PTSPs. Terminals were going missing, hoarding dust in merchants' drawers, or throwing errors without our support team ever knowing.<br><strong>Data & Research:</strong>Internal audits revealed staggering inefficiencies. We quantified the cost of a dormant terminal—the hardware cost, the lost opportunity cost, and the maintenance overhead. We realized that without remote monitoring and centralized control, we were bleeding money simply through poor physical asset management.<br><strong>What We Did:</strong>We needed a single source of truth. My job was to oversee the implementation of a comprehensive, centralized Terminal Management System (TMS). We built a platform that enabled the POS Team to visualize all incoming deployment requests, track hardware movement across complex internal approval lines, execute seamless dispatches, and monitor the heartbeat and uptime of every single deployed POS terminal in the field.<br><strong>The Result:</strong>Operational visibility went from zero to a hundred. We drastically reduced terminal downtime, streamlined our nationwide inventory rotation, and successfully plugged massive revenue leaks by actively identifying and re-deploying inactive devices."
+                onclick="openModal(this)">
+                <div class="pm-item-info">
+                    <span class="pm-tag">Hardware / SaaS</span>
+                    <h3 class="pm-title">POS Terminal Management Systems</h3>
+                    <p class="pm-desc">Managed the deployment of centralized terminal management infrastructure to
+                        monitor, update, and manage hardware fleets.</p>
+                </div>
+                <div class="pm-item-action">
+                    <span class="action-indicator">Read Story &rarr;</span>
+                </div>
+            </li>
+
+            <li class="pm-list-item" data-title="Card Activation on USSD & QR" data-type="FINTECH"
+                data-desc="<strong>The Problem:</strong>Issuing debit cards is expensive, but it's a major revenue driver for the business. However, we noticed a massive drop-off between a card being issued and a card being used. Why? Because activating a card required the user to visit an ATM, step into a physical branch, or use a mobile app that required an internet connection. We needed to remove this friction entirely.<br><strong>Data & Research:</strong>Looking closely at our demographic distribution, the data painted a clear picture. A massive segment of our users, particularly in Northern Nigeria, relied primarily on USSD for almost all of their daily banking activities due to lower smartphone penetration and limited internet access. If we wanted them to use cards, we had to meet them where they were.<br><strong>What We Did:</strong>We decided to bring card activation directly to the user's pocket, offline. Navigating significant security and regulatory constraints, we designed and implemented highly secure QR code and USSD-based activation flows. This allowed users (and assisting agents) to securely generate PINs and activate their physical cards using basic feature phones.<br><strong>The Result:</strong>By leaning heavily into user behavior data rather than forcing a one-size-fits-all digital approach, we successfully deployed the solution and improved our overall card activation rates by approximately 37%, unlocking previously trapped revenue."
+                onclick="openModal(this)">
+                <div class="pm-item-info">
+                    <span class="pm-tag">Fintech</span>
+                    <h3 class="pm-title">Card Activation on USSD</h3>
+                    <p class="pm-desc">Led the strategy and deployment of offline card activation flows via USSD for
+                        broad financial inclusion.</p>
+                </div>
+                <div class="pm-item-action">
+                    <span class="action-indicator">Read Story &rarr;</span>
+                </div>
+            </li>
+
+            <li class="pm-list-item" data-title="Mobile App Revamp" data-type="MOBILE"
+                data-desc="<strong>The Problem:</strong>Our legacy mobile banking application was showing its age, and it simply wasn't a great product. It suffered from a clunky user experience, confusing navigation, high drop-off rates during critical tasks like transfers, and an aging, inflexible monolithic architecture that made pushing new features a nightmare.<br><strong>Data & Research:</strong>We didn't have to look far for data. App store reviews were hovering in the painful 2-star territory. Product analytics highlighted severe friction points: users were taking too many clicks to complete basic onboarding, and backend timeouts were causing unacceptable transaction failure rates during peak hours.<br><strong>What We Did:</strong>I spearheaded a straightforward but massive overhaul. We didn't just put a fresh coat of paint on it; we tore it down. We completely reworked the frontend UI/UX for a modern, intuitive feel (focusing on a 'three-click' transfer rule), and simultaneously rebuilt the underlying backend architecture to be microservices-driven for extreme scalability and speed.<br><strong>The Result:</strong>We delivered a drastically smoother, faster application. The redesign significantly improved our Google Play and App Store ratings, boosted daily active user (DAU) retention, and drove up overall digital transaction volumes."
+                onclick="openModal(this)">
+                <div class="pm-item-info">
+                    <span class="pm-tag">Mobile</span>
+                    <h3 class="pm-title">Mobile App Revamps</h3>
+                    <p class="pm-desc">Spearheaded end-to-end UX/UI and architecture overhauls for existing mobile
+                        applications to improve retention.</p>
+                </div>
+                <div class="pm-item-action">
+                    <span class="action-indicator">Read Story &rarr;</span>
+                </div>
+            </li>
+
+            <li class="pm-list-item" data-title="Virtual Card Deployments" data-type="FINTECH"
+                data-desc="<strong>The Problem:</strong>The economics of physical cards were breaking down. The bank needed to aggressively cut the operational costs associated with importing blank plastics, printing, and logistics. Simultaneously, our younger users didn't care about a piece of plastic in their wallet; they just wanted instant access to spend money online for subscriptions and e-commerce.<br><strong>Data & Research:</strong>Consumer behavior analysis showed a massive spike in digital-first spending. With the rise of platforms like Netflix, Spotify, and international e-commerce, the demand for immediate, borderless payment instruments was at an all-time high.<br><strong>What We Did:</strong>We pivoted to bits over atoms. I conceptualized and deployed instant Virtual Cards directly within our mobile banking ecosystem. This required complex technical orchestration, so I worked closely with Mercator and Interswitch (Postillion) to handle the secure issuance integration, ensuring users could generate, freeze, or delete cards on demand.<br><strong>The Result:</strong>A total win-win. We slashed physical printing overheads drastically while providing instant gratification for our customers, which in turn led to a massive, immediate spike in digital transaction volumes."
+                onclick="openModal(this)">
+                <div class="pm-item-info">
+                    <span class="pm-tag">Fintech</span>
+                    <h3 class="pm-title">Virtual Card Deployments</h3>
+                    <p class="pm-desc">Oversaw the lifecycle creation and deployment of secure virtual cards for instant
+                        digital payments.</p>
+                </div>
+                <div class="pm-item-action">
+                    <span class="action-indicator">Read Story &rarr;</span>
+                </div>
+            </li>
+
+            <li class="pm-list-item" data-title="Rapid Account Opening (RAAP)" data-type="ONBOARDING"
+                data-desc="<strong>The Problem:</strong>Customer acquisition was moving at a snail's pace, heavily bottlenecked by traditional, branch-dependent KYC (Know Your Customer) and onboarding processes. Hand-filling forms and manual BVN validation simply couldn't scale if we wanted to capture the unbanked population.<br><strong>Data & Research:</strong>Working closely with the Agency Banking Team, we identified a massive untapped market of individuals who needed instant account access but lived miles away from the nearest physical branch. The data showed that if we could turn our sprawling agent network into mobile onboarding units, we could multiply our user base.<br><strong>What We Did:</strong>Leveraging a crucial partnership secured by the Agency Banking Team, I architected and deployed our Rapid Account Opening Solutions (RAAP). This was an offline-capable, dynamic KYC tiering application that allowed field agents to securely open fully functional accounts in minutes using automated BVN checks and simplified data capture.<br><strong>The Result:</strong>We scaled our customer acquisition exponentially. The RAAP deployment directly facilitated the successful onboarding of over 4 million new users into the banking ecosystem without them ever stepping foot in a branch."
+                onclick="openModal(this)">
+                <div class="pm-item-info">
+                    <span class="pm-tag">Onboarding</span>
+                    <h3 class="pm-title">Rapid Account Opening Solutions</h3>
+                    <p class="pm-desc">Streamlined KYC and onboarding flows to enable frictionless, high-speed customer
+                        account generation.</p>
+                </div>
+                <div class="pm-item-action">
+                    <span class="action-indicator">Read Story &rarr;</span>
+                </div>
+            </li>
+
+            <li class="pm-list-item" data-title="Digital Lending Integration" data-type="FINTECH"
+                data-desc="<strong>The Problem:</strong>As a financial institution, we were still relying heavily on old, paperwork-laden methods for credit and lending. It was incredibly slow, tedious, and completely unsustainable in the digital age. Users needed emergency funds or airtime at 2 AM, and a loan officer wasn't awake to process it.<br><strong>Data & Research:</strong>Market analysis indicated a massive, underserved demand for instant micro-loans and credit facilities. The challenge wasn't finding borrowers; it was building an automated risk assessment and immediate disbursement mechanism that could protect the bank while serving the user instantly.<br><strong>What We Did:</strong>We transitioned from subjective human underwriting to data-driven, instant micro-lending. I managed the implementation of both instant Cash Borrowing and Airtime Borrowing facilities. We partnered with Periculum to integrate advanced alternative Credit Scoring (analyzing transaction histories and behaviors), worked with Aleezah for the Airtime Lending infrastructure, and built the core user flows and orchestration entirely in-house.<br><strong>The Result:</strong>The product found immediate, explosive market fit. In just the first week of launch alone, we generated and disbursed ₦5 million. More importantly, our smart scoring kept our NPL (Non-Performing Loan) ratio well within healthy limits."
+                onclick="openModal(this)">
+                <div class="pm-item-info">
+                    <span class="pm-tag">Fintech</span>
+                    <h3 class="pm-title">Digital Lending Integration</h3>
+                    <p class="pm-desc">Managed the risk algorithms, user flows, and deployment of instant micro-lending
+                        facilities for users.</p>
+                </div>
+                <div class="pm-item-action">
+                    <span class="action-indicator">Read Story &rarr;</span>
+                </div>
+            </li>
+
+            <li class="pm-list-item" data-title="Open Banking API Integration" data-type="API / B2B"
+                data-desc="<strong>The Problem:</strong>Our core banking services were heavily siloed. We had great infrastructure, but it was a walled garden. This limited our ability to seamlessly partner with agile external fintechs, stifling innovation and leaving us unable to rapidly expand our service offerings to B2B clients.<br><strong>Data & Research:</strong>Market trends globally, and specifically in Africa, clearly showed that API-led integration (Banking as a Service) was crucial for unlocking new B2B revenue streams. Companies didn't want to build banks; they just wanted to plug into ours.<br><strong>What We Did:</strong>I championed and led the strategic initiative to architect and expose secure Open Banking APIs. This involved navigating strict security compliance, building OAuth2 authentication layers, and creating clean, RESTful documentation that allowed seamless integration with third-party aggregators, loan providers, and payment gateways.<br><strong>The Result:</strong>We successfully transformed the bank from a closed system into a platform. This created highly lucrative new, passive revenue streams and significantly expanded our digital footprint through high-value strategic fintech partnerships."
+                onclick="openModal(this)">
+                <div class="pm-item-info">
+                    <span class="pm-tag">API / B2B</span>
+                    <h3 class="pm-title">Open Banking API Integration</h3>
+                    <p class="pm-desc">Led initiatives to integrate core banking systems with external third-party APIs
+                        for extended service offerings.</p>
+                </div>
+                <div class="pm-item-action">
+                    <span class="action-indicator">Read Story &rarr;</span>
+                </div>
+            </li>
+
+            <li class="pm-list-item" data-title="NIP / UP Switch Gateway" data-type="INFRASTRUCTURE"
+                data-desc="<strong>The Problem:</strong>'Where is my money?' is the worst question a banking user can ask. As our user base grew, our outbound transaction volumes began growing faster than our existing infrastructure could reliably handle. This led to unacceptable transfer delays and failures, particularly during high-stress periods like month-end salary disbursements.<br><strong>Data & Research:</strong>Throughput analysis showed severe bottlenecks and latency issues at our legacy gateways when communicating with the central switch. We were hitting API rate limits and connection timeouts that were destroying customer trust.<br><strong>What We Did:</strong>I managed the highly complex technical deployment and integration of a robust new NIP (NIBSS Instant Payment) / UP Switch Gateway. We didn't just swap pipes; we implemented smart, dynamic routing, auto-reversals for failed pings, and asynchronous processing to intelligently handle massive load spikes without dropping requests.<br><strong>The Result:</strong>We dramatically reduced transfer failure rates across the board and ensured a stellar 99.9% uptime metric during peak transaction windows, virtually eliminating manual reconciliation tickets and restoring customer confidence."
+                onclick="openModal(this)">
+                <div class="pm-item-info">
+                    <span class="pm-tag">Infrastructure</span>
+                    <h3 class="pm-title">NIP / UP Switch Gateway</h3>
+                    <p class="pm-desc">Managed the integration of national payment switches for reliable, high-volume
+                        outbound transactions.</p>
+                </div>
+                <div class="pm-item-action">
+                    <span class="action-indicator">Read Story &rarr;</span>
+                </div>
+            </li>
+        </ul>
+
+        <!-- SECTION 2: DEVELOPER PORTFOLIO -->
+        <div class="section-header">
+            <h2 class="section-title">Module 02: Engineering & Deployments</h2>
+            <p class="section-desc">
+                The hands-on work. These are the shareable, public-facing applications, frontends, and mobile apps that
+                I personally engineered, coded, and deployed from the ground up.
+            </p>
+        </div>
+
+        <div class="grid">
+            <!-- Full card is clickable -->
+            <div class="card" data-title="Otto Africa" data-type="WEB" data-stack="React, Node.js, Vercel"
+                data-desc="A comprehensive corporate landing page for Otto Africa, showcasing the company's core services, mission, and footprint. Designed with a focus on brand identity and corporate communication. Built to be fully responsive and performant across all devices."
+                data-url="https://www.ottoafrica.com/" onclick="openModal(this)">
+                <span class="badge">Web</span>
+                <h2>Otto Africa</h2>
+                <p>The primary landing page and main corporate website for Otto Africa's services and offerings.</p>
+                <div style="margin-top: auto;">
+                    <span class="action-indicator">Details &rarr;</span>
+                </div>
+            </div>
+
+            <div class="card" data-title="Otto Business Portal" data-type="WEB"
+                data-stack="React, TypeScript, AWS, Vercel"
+                data-desc="A robust B2B web portal designed specifically for Otto Africa's partners and merchants. It features secure authentication, dashboard analytics, and comprehensive management tools tailored for seamless daily business operations."
+                data-url="https://business.ottoafrica.com/login" onclick="openModal(this)">
+                <span class="badge">Web</span>
+                <h2>Otto Business Portal</h2>
+                <p>The dedicated login and management portal tailored for Otto Africa's business partners and merchants.
+                </p>
+                <div style="margin-top: auto;">
+                    <span class="action-indicator">Details &rarr;</span>
+                </div>
+            </div>
+
+            <div class="card" data-title="Otto Customer App" data-type="MOBILE" data-stack="Flutter, Firebase"
+                data-desc="The official native Android application for Otto customers. Built for high performance and sustained user engagement, it enables customers to access services on-the-go. Currently live and available for download directly from the Google Play Store."
+                data-url="https://play.google.com/store/apps/details?id=com.otto.customer&hl=en-US&ah=qBtmCghPlA-ReaA82sEIIFNPN78"
+                onclick="openModal(this)">
+                <span class="badge">Mobile</span>
+                <h2>Otto Customer App</h2>
+                <p>The official Android mobile application for Otto customers, available directly on the Play Store.</p>
+                <div style="margin-top: auto;">
+                    <span class="action-indicator">Details &rarr;</span>
+                </div>
+            </div>
+
+            <div class="card" data-title="Reconciliation Frontend" data-type="WEB"
+                data-stack="React, Node.js, Railway, Vercel"
+                data-desc="A specialized financial dashboard created to streamline the reconciliation process. It efficiently handles complex data sets, providing clear, actionable views for financial teams to verify transactions and maintain ledger accuracy."
+                data-url="https://reconciliation-frontend-nu.vercel.app/" onclick="openModal(this)">
+                <span class="badge">Web</span>
+                <h2>Reconciliation Frontend</h2>
+                <p>A web-based dashboard application built for handling and viewing financial reconciliations.</p>
+                <div style="margin-top: auto;">
+                    <span class="action-indicator">Details &rarr;</span>
+                </div>
+            </div>
+
+            <div class="card" data-title="Central Landing Page" data-type="WEB" data-stack="React, Vercel"
+                data-desc="A strategic central hub architecture designed to effectively route incoming traffic to various sub-products and services. Built with conversion optimization, fast load times, and clear call-to-actions in mind."
+                data-url="https://central-landing-page.vercel.app/" onclick="openModal(this)">
+                <span class="badge">Web</span>
+                <h2>Central Landing Page</h2>
+                <p>A centralized landing page architecture designed to direct traffic and highlight key features.</p>
+                <div style="margin-top: auto;">
+                    <span class="action-indicator">Details &rarr;</span>
+                </div>
+            </div>
+
+            <div class="card" data-title="Deevo Technologies" data-type="WEB" data-stack="React, Next.js, Vercel"
+                data-desc="The digital storefront for Deevo Technologies. It highlights their broad range of technological solutions, showcases their portfolio of services, and provides a direct point of contact for potential enterprise clients."
+                data-url="https://www.deevotechnologies.com/" onclick="openModal(this)">
+                <span class="badge">Web</span>
+                <h2>Deevo Technologies</h2>
+                <p>The official company website showcasing the tech solutions and services provided by Deevo
+                    Technologies.</p>
+                <div style="margin-top: auto;">
+                    <span class="action-indicator">Details &rarr;</span>
+                </div>
+            </div>
+
+            <div class="card" data-title="GenZ HR Client" data-type="WEB" data-stack="React, Node.js, Firebase, Vercel"
+                data-desc="A forward-thinking human resources management portal tailored to the modern workforce. It simplifies employee profile management, seamless onboarding, and self-service HR tasks with an intuitive and highly accessible interface."
+                data-url="https://genzhr-client.vercel.app/" onclick="openModal(this)">
+                <span class="badge">Web</span>
+                <h2>GenZ HR Client</h2>
+                <p>A modern, intuitive human resources management portal frontend tailored for today's workforce.</p>
+                <div style="margin-top: auto;">
+                    <span class="action-indicator">Details &rarr;</span>
+                </div>
+            </div>
+
+            <div class="card" data-title="GenZ HR Admin" data-type="WEB"
+                data-stack="React, TypeScript, Firebase, Vercel"
+                data-desc="The core administrative control panel for the GenZ HR ecosystem. It provides HR managers and system administrators with comprehensive, secure tools to oversee employee data, configure platform settings, and manage organizational structures."
+                data-url="https://genzhr-admin.vercel.app/#/login" onclick="openModal(this)">
+                <span class="badge">Web</span>
+                <h2>GenZ HR Admin</h2>
+                <p>The administrative control panel and management dashboard for the GenZ HR ecosystem.</p>
+                <div style="margin-top: auto;">
+                    <span class="action-indicator">Details &rarr;</span>
+                </div>
+            </div>
+
+            <div class="card" data-title="Spark Deals" data-type="WEB" data-stack="React, Node.js, Railway, Vercel"
+                data-desc="An interactive frontend application for a dynamic deals and e-commerce platform. Features include dynamic deal listings, promotional highlights, user-friendly navigation, and a streamlined, conversion-focused checkout flow."
+                data-url="https://sparkdeals.vercel.app/" onclick="openModal(this)">
+                <span class="badge">Web</span>
+                <h2>Spark Deals</h2>
+                <p>An interactive frontend application for a deals and e-commerce platform.</p>
+                <div style="margin-top: auto;">
+                    <span class="action-indicator">Details &rarr;</span>
+                </div>
+            </div>
+
+            <div class="card" data-title="Enterprise Web Portal" data-type="WEB"
+                data-stack="React, TypeScript, AWS, Vercel"
+                data-desc="A secure web portal interface designed for enterprise-level operations. It features comprehensive authentication flows and a robust operational dashboard tailored for internal business workflows and data management."
+                data-url="https://frontend-ruby-eight-ejlw32wg4a.vercel.app/login" onclick="openModal(this)">
+                <span class="badge">Web</span>
+                <h2>Enterprise Web Portal</h2>
+                <p>A secure portal interface designed for enterprise-level operations and business workflows.</p>
+                <div style="margin-top: auto;">
+                    <span class="action-indicator">Details &rarr;</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="site-footer">
+            <div class="footer-copy">
+                &copy; 2026 Amen O. Olabode. All rights reserved.
+            </div>
+            <div class="footer-links">
+                <a href="mailto:amen.olabode@gmail.com">Email</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">Twitter</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- MODAL STRUCTURE -->
+    <div class="modal-overlay" id="project-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-btn" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-title-wrapper">
+                    <h2 id="modal-title">Project Title</h2>
+                    <span id="modal-naija-slang" class="modal-naija-slang"></span>
+                </div>
+                <span class="modal-badge" id="modal-type">Web</span>
+
+                <div class="tech-stack" id="modal-tech-stack">
+                    <!-- Stack tags injected via JS -->
+                </div>
+
+                <p id="modal-desc" class="story-text">Project description goes here.</p>
+                <a href="#" id="modal-link" class="view-project-btn" target="_blank" rel="noopener noreferrer">View
+                    Deployment &rarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Hero Typing Animation
+        document.addEventListener("DOMContentLoaded", () => {
+            const nameText = "Amen O. Olabode.";
+            const nameElement = document.getElementById('typing-name');
+            let i = 0;
+
+            function typeWriter() {
+                if (i < nameText.length) {
+                    nameElement.innerHTML += nameText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 120 + Math.random() * 80);
+                }
+            }
+
+            // Start typing slightly after page load
+            setTimeout(typeWriter, 500);
+
+            // Hero Background Slider Initialization
+            const slides = document.querySelectorAll('.hero-bg-slide');
+            let currentSlide = 0;
+
+            if (slides.length > 0) {
+                setInterval(() => {
+                    slides[currentSlide].classList.remove('active');
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slides[currentSlide].classList.add('active');
+                }, 4000); // Transitions every 4 seconds
+            }
+        });
+
+        // Naija Pop Slang Arrays
+        const slangs = ["Osheyyy! 🙌", "Ogaju! 🔥", "Naso! 💯", "Mad o! 🤯", "Omo!", "E choke!", "Tuale! 🫡", "No wahala! 🚀", "You dey feel am? 😎"];
+
+        // Scroll-triggered Chat Bubbles
+        const scrollSlangs = ["You dey feel am? 😎", "E choke ba? 🔥", "Sope Purrr 💅", "No be beans! 💯", "Weytin you see? 👀", "Odogwu vibes! 🙌"];
+        const scrollTriggers = [0.25, 0.5, 0.75, 0.95]; // Trigger at 25%, 50%, 75%, 95% scroll depth
+        const triggered = [false, false, false, false];
+        let scrollBubbleTimeout;
+
+        window.addEventListener('scroll', () => {
+            const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+
+            scrollTriggers.forEach((trigger, index) => {
+                // If user scrolls past a milestone and it hasn't triggered yet
+                if (scrollPercent >= trigger && !triggered[index]) {
+                    triggered[index] = true;
+                    showScrollBubble();
+                }
+            });
+        });
+
+        function showScrollBubble() {
+            // Remove existing scroll bubble if one is already showing
+            const existing = document.getElementById('scroll-chat-indicator');
+            if (existing) existing.remove();
+
+            const bubble = document.createElement('div');
+            bubble.id = 'scroll-chat-indicator';
+            bubble.className = 'scroll-chat-bubble';
+
+            // Pick random scroll slang
+            const randomSlang = scrollSlangs[Math.floor(Math.random() * scrollSlangs.length)];
+            bubble.innerText = randomSlang;
+
+            document.body.appendChild(bubble);
+
+            // Trigger slide-up animation
+            setTimeout(() => {
+                bubble.classList.add('show');
+            }, 50);
+
+            // Hide and remove after 4 seconds
+            clearTimeout(scrollBubbleTimeout);
+            scrollBubbleTimeout = setTimeout(() => {
+                bubble.classList.remove('show');
+                setTimeout(() => bubble.remove(), 500); // wait for CSS transition to finish
+            }, 4000);
+        }
+
+        let lastHoverTime = 0;
+
+        // Hover Effect for Scroll Prompt
+        function hoverNaijaSlang(event) {
+            const now = Date.now();
+            if (now - lastHoverTime < 3000) return; // Prevent spamming
+            lastHoverTime = now;
+
+            const randomSlang = slangs[Math.floor(Math.random() * slangs.length)];
+            const pop = document.createElement('div');
+            pop.className = 'naija-pop';
+            pop.innerText = randomSlang;
+
+            // Set position based on mouse coordinates
+            pop.style.left = event.clientX + 'px';
+            pop.style.top = (event.clientY - 10) + 'px';
+
+            document.body.appendChild(pop);
+
+            // Clean up DOM after animation finishes
+            setTimeout(() => {
+                pop.remove();
+            }, 2500);
+        }
+
+        // Modal Logic
+        function openModal(element) {
+            const title = element.getAttribute('data-title');
+            const type = element.getAttribute('data-type');
+            const desc = element.getAttribute('data-desc');
+            const url = element.getAttribute('data-url');
+            const stack = element.getAttribute('data-stack');
+
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-type').innerText = type;
+            document.getElementById('modal-desc').innerHTML = desc;
+
+            // Handle URL Link
+            const linkElement = document.getElementById('modal-link');
+            if (url) {
+                linkElement.href = url;
+                linkElement.style.display = 'inline-block';
+            } else {
+                linkElement.style.display = 'none';
+            }
+
+            // Handle Tech Stack
+            const stackContainer = document.getElementById('modal-tech-stack');
+            stackContainer.innerHTML = '';
+
+            if (stack) {
+                const techList = stack.split(',');
+                techList.forEach(tech => {
+                    const span = document.createElement('span');
+                    span.className = 'tech-tag';
+                    span.innerText = tech.trim();
+                    stackContainer.appendChild(span);
+                });
+                stackContainer.style.display = 'flex';
+            } else {
+                stackContainer.style.display = 'none';
+            }
+
+            // --- NAIJA SLANG IN MODAL LOGIC ---
+            const slangElement = document.getElementById('modal-naija-slang');
+            const randomSlang = slangs[Math.floor(Math.random() * slangs.length)];
+            slangElement.innerText = randomSlang;
+
+            // Reset class for animation if it was already showing
+            slangElement.classList.remove('show');
+
+            // Show modal
+            document.getElementById('project-modal').style.display = 'flex';
+            document.body.classList.add('modal-open');
+
+            // Trigger animation slightly after modal opens
+            setTimeout(() => {
+                slangElement.classList.add('show');
+
+                // Hide it after 3 seconds
+                setTimeout(() => {
+                    slangElement.classList.remove('show');
+                }, 3000);
+            }, 300);
+        }
+
+        function closeModal() {
+            document.getElementById('project-modal').style.display = 'none';
+            document.body.classList.remove('modal-open');
+        }
+
+        // Close on background click
+        window.onclick = function (event) {
+            const modalOverlay = document.getElementById('project-modal');
+            if (event.target === modalOverlay) {
+                closeModal();
+            }
+        }
+
+        // Close on ESC key
+        document.addEventListener('keydown', function (event) {
+            if (event.key === "Escape") {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+
+</html>
